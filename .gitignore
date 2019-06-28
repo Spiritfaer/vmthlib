@@ -1,0 +1,4 @@
+.DS*
+*~
+vmthlib.a
+/obj

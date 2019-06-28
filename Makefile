@@ -10,7 +10,7 @@
 #                                                                              #
 #******************************************************************************#
 
-.PHONY: clean fclean re norm all b1 build bclean allclean
+.PHONY: clean fclean re norm all
 
 SRC_PATH	= ./src/
 OBJ_PATH	= ./obj/
@@ -46,7 +46,8 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
+	@ranlib $(NAME)
+	@printf "RT:  %-25s$(C_GREEN)[done]$(C_NONE)\n" "$(NAME)"
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir -p $(OBJ_PATH)
@@ -57,35 +58,8 @@ norm:
 
 clean:
 	@rm -rf $(OBJ_PATH)
-	@echo "clean was done"
 
 fclean: clean
 	@rm -Rf $(NAME)
-	@echo "fclean was done"
-
-bclean:
-	@rm -rf $(BUILD_PATH)
-	@echo "bclean was done"
-
-tclean:
-	@rm -rf test
-	@echo "tclean was done"
-
-allclean: fclean bclean
-	@echo "allclean was done"
-
-cl: allclean tclean
 
 re: fclean all
-
-test: main.c $(NAME)
-	@$(CC) $(CFLAG) -L. -l vmth -I ./include/ main.c -o test
-	@echo "test.exe is ready"
-
-b1: $(NAME)
-	@mkdir -p $(BUILD_PATH)
-	@cp $(NAME) $(BUILD_PATH)
-	@cp $(INC_PATH)*.h $(BUILD_PATH)
-
-build: b1 fclean
-	@echo "build is ready"
